@@ -65,7 +65,7 @@ const GymComingSoon = () => {
             <h1 className="font-display text-5xl sm:text-7xl text-primary text-glow mb-4">
               Gym — Coming Soon
             </h1>
-            <p className="text-muted-foreground text-lg mb-10 max-w-xl mx-auto">
+            <p className="text-white/90 text-lg mb-10 max-w-xl mx-auto" style={{ textShadow: '0 1px 6px rgba(0,0,0,0.7)' }}>
               A state-of-the-art gym by Vikram Jadhav is under construction. Get ready to transform your fitness journey.
             </p>
           </motion.div>
@@ -80,7 +80,7 @@ const GymComingSoon = () => {
             {countdownItems.map((item) => (
               <div key={item.label} className="glass rounded-lg p-4 min-w-[70px]">
                 <div className="font-display text-3xl sm:text-4xl text-primary">{String(item.value).padStart(2, "0")}</div>
-                <div className="text-xs text-muted-foreground mt-1">{item.label}</div>
+                <div className="text-xs text-white/80 mt-1" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>{item.label}</div>
               </div>
             ))}
           </motion.div>

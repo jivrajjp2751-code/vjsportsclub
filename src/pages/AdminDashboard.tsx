@@ -255,11 +255,10 @@ const AdminDashboard = () => {
                 <button
                   key={t.key}
                   onClick={() => setTab(t.key)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-all ${
-                    tab === t.key
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-all ${tab === t.key
                       ? "border-primary bg-primary/10 text-primary"
                       : "border-border text-muted-foreground hover:border-primary/50"
-                  }`}
+                    }`}
                 >
                   <t.icon className="w-4 h-4" />
                   {t.label}
@@ -373,9 +372,8 @@ const AdminDashboard = () => {
                         <span className="text-xs text-muted-foreground ml-3">{u.email}</span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className={`text-xs px-2 py-1 rounded font-medium ${
-                          u.role === "admin" ? "bg-accent/20 text-accent" : "bg-secondary text-secondary-foreground"
-                        }`}>
+                        <span className={`text-xs px-2 py-1 rounded font-medium ${u.role === "admin" ? "bg-accent/20 text-accent" : "bg-secondary text-secondary-foreground"
+                          }`}>
                           {u.role}
                         </span>
                         <Button
