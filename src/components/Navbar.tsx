@@ -22,7 +22,7 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass">
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
-        <Link to="/" className="flex items-center gap-2 sm:gap-3 min-w-0">
+        <Link to="/" className="flex items-center gap-2 sm:gap-3 flex-shrink min-w-0">
           <img
             src={logo}
             alt="VJ's Sports Club logo"
@@ -40,8 +40,8 @@ const Navbar = () => {
               key={link.label}
               to={link.to}
               className={`text-sm font-medium transition-colors ${location.pathname === link.to
-                  ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
+                ? "text-primary"
+                : "text-muted-foreground hover:text-foreground"
                 }`}
             >
               {link.label}
@@ -88,8 +88,8 @@ const Navbar = () => {
                   key={link.label}
                   to={link.to}
                   className={`text-sm font-medium transition-colors py-2 ${location.pathname === link.to
-                      ? "text-primary"
-                      : "text-muted-foreground hover:text-foreground"
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-foreground"
                     }`}
                   onClick={() => setOpen(false)}
                 >

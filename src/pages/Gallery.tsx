@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import turfBg from "@/assets/turf-bg.jpg";
 import poolBg from "@/assets/pool-bg.jpg";
-import cafeBg from "@/assets/cafe-bg.jpg";
+import cafeBg from "@/assets/cafe-bg.png";
 import heroBg from "@/assets/hero-bg.jpg";
 import gymBg from "@/assets/gym-bg.jpg";
 
@@ -52,8 +52,8 @@ const Gallery = () => {
                 key={c}
                 onClick={() => setFilter(c)}
                 className={`px-4 py-2 rounded-full text-sm font-medium border transition-all ${filter === c
-                    ? "border-primary bg-primary/10 text-primary"
-                    : "border-border text-muted-foreground hover:border-primary/50"
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border text-muted-foreground hover:border-primary/50"
                   }`}
               >
                 {c}

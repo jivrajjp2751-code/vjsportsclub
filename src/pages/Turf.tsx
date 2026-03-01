@@ -1,14 +1,24 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Calendar, Clock, CheckCircle2, User } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Calendar, Clock, CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
-import turfBg from "@/assets/turf-bg.jpg";
+import turf1 from "@/assets/turf-1.jpg";
+import turf2 from "@/assets/turf-2.jpg";
+import turf3 from "@/assets/turf-3.jpg";
+import turf4 from "@/assets/turf-4.jpg";
 import { format, addDays, isSameDay } from "date-fns";
 import { supabase } from "@/integrations/supabase/client";
+
+const carouselImages = [
+  { src: turf1, alt: "Wide view of turf with goal posts and striped grass", caption: "Professional Turf" },
+  { src: turf2, alt: "Elevated view of striped turf with yellow gate", caption: "Aerial View" },
+  { src: turf3, alt: "Ground-level view of turf with goal and floodlights", caption: "Evening Play" },
+  { src: turf4, alt: "Close-up grass-level shot of premium turf", caption: "Premium Grass" },
+];
 
 const sports = ["Football", "Cricket", "Badminton", "Tennis"];
 
@@ -26,6 +36,34 @@ const Turf = () => {
   const [bookedSlots, setBoostedSlots] = useState<string[]>([]);
   const [bookingName, setBookingName] = useState("");
   const [bookingPhone, setBookingPhone] = useState("");
+
+  // Carousel state
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const len = carouselImages.length;
+
+  const goTo = useCallback(
+    (idx: number, dir: number) => {
+      setDirection(dir);
+      setCurrent(((idx % len) + len) % len);
+    },
+    [len]
+  );
+
+  const next = useCallback(() => goTo(current + 1, 1), [current, goTo]);
+  const prev = useCallback(() => goTo(current - 1, -1), [current, goTo]);
+
+  // Auto-advance every 5 seconds
+  useEffect(() => {
+    const timer = setInterval(next, 5000);
+    return () => clearInterval(timer);
+  }, [next]);
+
+  const slideVariants = {
+    enter: (dir: number) => ({ x: dir > 0 ? "100%" : "-100%", opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (dir: number) => ({ x: dir > 0 ? "-100%" : "100%", opacity: 0 }),
+  };
 
   const days = Array.from({ length: 7 }, (_, i) => addDays(new Date(), i));
 
@@ -74,14 +112,93 @@ const Turf = () => {
       />
       <Navbar />
 
-      <section className="relative h-[50vh] flex items-center justify-center">
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${turfBg})` }} />
-        <div className="absolute inset-0 bg-background/25" />
-        <div className="relative z-10 text-center">
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="font-display text-5xl sm:text-6xl text-primary text-glow">
+      {/* ───── Hero Carousel ───── */}
+      <section className="relative h-[60vh] sm:h-[70vh] overflow-hidden">
+        {/* Slides */}
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.img
+            key={current}
+            src={carouselImages[current].src}
+            alt={carouselImages[current].alt}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.6, ease: [0.42, 0, 0.58, 1] }}
+            className="absolute inset-0 w-full h-full object-cover"
+            draggable={false}
+          />
+        </AnimatePresence>
+
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent pointer-events-none" />
+
+        {/* Caption badge */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.4 }}
+            className="absolute bottom-24 sm:bottom-28 left-0 right-0 z-20 flex justify-center"
+          >
+            <span className="bg-black/50 px-5 py-2 rounded-full text-sm sm:text-base font-medium text-white border border-white/20">
+              {carouselImages[current].caption}
+            </span>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Navigation arrows */}
+        <button
+          onClick={prev}
+          aria-label="Previous slide"
+          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full glass flex items-center justify-center text-foreground hover:text-primary hover:scale-110 transition-all"
+        >
+          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+        </button>
+        <button
+          onClick={next}
+          aria-label="Next slide"
+          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full glass flex items-center justify-center text-foreground hover:text-primary hover:scale-110 transition-all"
+        >
+          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+        </button>
+
+        {/* Dots */}
+        <div className="absolute bottom-10 left-0 right-0 z-20 flex justify-center gap-2">
+          {carouselImages.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i, i > current ? 1 : -1)}
+              aria-label={`Go to slide ${i + 1}`}
+              className={`rounded-full transition-all duration-300 ${i === current
+                ? "w-8 h-2 bg-primary shadow-[0_0_10px_hsl(var(--primary)/0.6)]"
+                : "w-2 h-2 bg-foreground/30 hover:bg-foreground/60"
+                }`}
+            />
+          ))}
+        </div>
+
+        {/* Title overlay */}
+        <div className="absolute top-24 sm:top-32 left-0 right-0 z-20 flex flex-col items-center pointer-events-none">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="font-display text-5xl sm:text-7xl text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.7)] text-glow"
+          >
             Sports Turf
           </motion.h1>
-          <p className="text-muted-foreground mt-2">Book your slot. Play your game.</p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-white/80 mt-2 text-lg sm:text-xl drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)]"
+          >
+            Book your slot. Play your game.
+          </motion.p>
         </div>
       </section>
 
@@ -104,7 +221,7 @@ const Turf = () => {
             <h3 className="font-display text-2xl text-foreground mb-4 flex items-center gap-2">
               <Calendar className="w-5 h-5 text-primary" /> Select Date
             </h3>
-            <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
+            <div className="flex gap-3 overflow-x-auto pb-2">
               {days.map((d) => (
                 <button
                   key={d.toISOString()}

@@ -8,7 +8,7 @@ import SEO from "@/components/SEO";
 import heroBg from "@/assets/hero-bg.jpg";
 import turfBg from "@/assets/turf-bg.jpg";
 import poolBg from "@/assets/pool-bg.jpg";
-import cafeBg from "@/assets/cafe-bg.jpg";
+import cafeBg from "@/assets/cafe-bg.png";
 import gymBg from "@/assets/gym-bg.jpg";
 import vikramPhoto from "@/assets/vikram-jadhav.jpeg";
 
@@ -61,7 +61,7 @@ const Index = () => {
             </motion.div>
 
             <div className="text-center lg:text-left">
-              <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="font-display text-5xl sm:text-7xl lg:text-8xl tracking-wide text-glow text-primary mb-2">
+              <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="font-display text-4xl sm:text-7xl lg:text-8xl tracking-wide text-glow text-primary mb-2">
                 <motion.span animate={{ textShadow: ["0 0 20px hsl(var(--primary) / 0.3)", "0 0 40px hsl(var(--primary) / 0.6)", "0 0 20px hsl(var(--primary) / 0.3)"] }} transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}>Vikram Jadhav</motion.span>
               </motion.h1>
               <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15 }} className="font-display text-2xl sm:text-3xl text-foreground mb-2">
@@ -158,7 +158,7 @@ const Index = () => {
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.7, ease: "easeOut" }}
                 whileHover={{ scale: 1.02 }}
-                className="relative rounded-xl overflow-hidden group h-80"
+                className="relative rounded-xl overflow-hidden group min-h-[20rem] h-auto"
               >
                 <motion.div
                   animate={{ scale: [1, 1.03, 1] }}
@@ -167,9 +167,9 @@ const Index = () => {
                   style={{ backgroundImage: `url(${f.img})` }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20" />
-                <div className="relative z-10 h-full flex flex-col justify-center p-8 max-w-lg">
-                  <h3 className="font-display text-4xl text-white mb-3" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.7)' }}>{f.title}</h3>
-                  <p className="text-white/85 mb-6" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}>{f.desc}</p>
+                <div className="relative z-10 h-full flex flex-col justify-center p-6 sm:p-8 max-w-lg">
+                  <h3 className="font-display text-3xl sm:text-4xl text-white mb-3" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.7)' }}>{f.title}</h3>
+                  <p className="text-white/85 mb-6 text-sm sm:text-base" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}>{f.desc}</p>
                   <Button variant="hero" size="lg" asChild className="w-fit">
                     <Link to={f.to}>{f.cta}</Link>
                   </Button>
